@@ -30,6 +30,8 @@ def remove_part(a_part):
             if i.get_attached() == True:
                 print(f"you must first remove {i}")
                 return False
+            a_part.set_attached(False)
+            return True
     else:
         a_part.set_attached(False)
         return True
