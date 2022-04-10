@@ -2,8 +2,6 @@
 # Author: Henri Kuoppala, Juuso Äijälä
 # Description: motorcycle class
 
-import part
-
 class Motorcycle:
     def __init__(self):
         self.__is_working = True

@@ -2,8 +2,11 @@
 # Author: Henri Kuoppala, Juuso Äijälä
 # Description: main file
 
+import sys
 import motorcycle
-import part
+
+sys.path.insert(1, "./parts/parent_parts")
+from part import Part
 
 def select_part_to_remove(motorcycle):
     parts = motorcycle.get_parts()
@@ -57,8 +60,8 @@ def main():
     # setting up
     my_bike = motorcycle.Motorcycle()
 
-    b_caliber_front = part.Part("break caliber(front)")
-    b_pads_front = part.Part("break pads(front)")
+    b_caliber_front = Part("break caliber(front)")
+    b_pads_front = Part("break pads(front)")
 
     b_pads_front.set_faulty(True)
     b_pads_front.add_part_to_remove(b_caliber_front)
