@@ -8,8 +8,8 @@ import motorcycle
 sys.path.insert(1, "./parts/parent_parts")
 from part import Part
 
-def select_part_to_remove(motorcycle):
-    parts = motorcycle.get_parts()
+def select_part_to_remove(list_of_parts):
+    parts = list_of_parts
     number = 1
     for a_part in parts:
         print(f"{number}. {a_part}")
@@ -24,19 +24,23 @@ def select_part_to_remove(motorcycle):
                 break
         except ValueError:
             print("invalid input")
-    return motorcycle.get_parts()[a_part -1]
+    return parts[a_part -1]
 
-def remove_part(a_part):
+def remove_part(a_part, list_of_parts, list_of_removed_parts):
     first_remove = a_part.get_parts_to_remove()
     if len(first_remove) > 0:
         for i in first_remove:
             if i.get_attached() == True:
                 print(f"you must first remove {i}")
                 return False
-            a_part.set_attached(False)
-            return True
+        a_part.set_attached(False)
+        list_of_parts.remove(a_part)
+        list_of_removed_parts.append(a_part)
+        return True
     else:
         a_part.set_attached(False)
+        list_of_parts.remove(a_part)
+        list_of_removed_parts.append(a_part)
         return True
 
 def inspect_part(a_part):
@@ -53,7 +57,23 @@ def inspect_part(a_part):
             a_part.replace()
         else:
             print(f"this part seems to be fine")
+    attach_part(a_part)
 
+
+# The Motorcycle class itself should have attributes for attached and non-attached parts!!! Pending...
+            
+def attach_part(a_part):
+    while True:
+        attach = input(f"do want to re-attach the part? (y/n): ")
+        if attach != "y" and attach != "n":
+            print(f"invalid input")
+            continue
+        else:
+            break
+    if attach == "y":
+        a_part.set_attached(True)
+        list_of_removed_parts.remove(a_part)
+        list_of_parts.append(a_part)
 
 def main():
 
@@ -72,15 +92,17 @@ def main():
     part_list.append(b_caliber_front)
     part_list.append(b_pads_front)
 
+    removed_part_list = []
+
     my_bike.set_parts(part_list)
 
     my_bike.check_parts()
 
     # game loop
+    print(my_bike)
     while my_bike.get_working() == False:
-        print(my_bike)
-        part_to_check = select_part_to_remove(my_bike)
-        if remove_part(part_to_check) == False:
+        part_to_check = select_part_to_remove(part_list)
+        if remove_part(part_to_check, part_list, removed_part_list) == False:
             continue
         inspect_part(part_to_check)
         

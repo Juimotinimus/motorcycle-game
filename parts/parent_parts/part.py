@@ -40,7 +40,6 @@ class Part:
 
     def replace(self):
         self.__faulty = False
-        self.__is_attached = True
 
     def __str__(self):
         return f"{self.__part_name}"
