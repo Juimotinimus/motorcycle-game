@@ -11,10 +11,10 @@ class Part:
 
     def set_part_name(self, part_name):
         self.__part_name = part_name
-    
+
     def set_attached(self, attached):
         self.__is_attached = attached
-    
+
     def set_parts_to_remove(self, parts):
         self.__parts_to_remove_first = parts
 
@@ -43,4 +43,3 @@ class Part:
 
     def __str__(self):
         return f"{self.__part_name}"
-    
