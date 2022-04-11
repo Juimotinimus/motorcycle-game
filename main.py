@@ -83,6 +83,7 @@ def main():
     # setting up
     my_bike = motorcycle.Motorcycle()
 
+    #This will become quite cumbersome after couple of parts
     b_caliber_front = Part("break caliber(front)")
     b_pads_front = Part("break pads(front)")
     wheel_front = Front_Wheel()
@@ -96,6 +97,7 @@ def main():
     my_bike.set_fault(wheel_front.get_fault())
     #THESE TWO WILL CHANGE THE FAULTY PART
 
+    #This will become quite cumbersome after couple of parts
     part_list = []
     part_list.append(b_caliber_front)
     part_list.append(b_pads_front)
