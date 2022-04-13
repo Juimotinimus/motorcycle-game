@@ -3,7 +3,7 @@
 # Description: rear_wheel class inherited from part
 
 import sys
-sys.path.insert(1, "../parent_parts")
+sys.path.insert(1, "../")
 from part import Part
 
 class Rear_Wheel(Part):
