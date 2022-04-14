@@ -2,8 +2,9 @@
 # Author: Henri Kuoppala, Juuso Äijälä
 # Description: main file
 
+import random
 import motorcycle
-import part
+from part import Part
 
 def select_part_to_remove(list_of_parts):
     parts = list_of_parts
@@ -23,7 +24,7 @@ def select_part_to_remove(list_of_parts):
             print("invalid input")
     return parts[a_part -1]
 
-def remove_part(a_part, list_of_parts, list_of_removed_parts):
+def remove_part(a_part, bike):
     first_remove = a_part.get_parts_to_remove()
     if len(first_remove) > 0:
         for i in first_remove:
@@ -31,16 +32,14 @@ def remove_part(a_part, list_of_parts, list_of_removed_parts):
                 print(f"you must first remove {i}")
                 return False
         a_part.set_attached(False)
-        list_of_parts.remove(a_part)
-        list_of_removed_parts.append(a_part)
+        bike.remove_part(a_part)
         return True
     else:
         a_part.set_attached(False)
-        list_of_parts.remove(a_part)
-        list_of_removed_parts.append(a_part)
+        bike.remove_part(a_part)
         return True
 
-def inspect_part(a_part):
+def inspect_part(a_part, bike):
     while True:
         inspect = input(f"do want to inspect the part? (y/n): ")
         if inspect != "y" and inspect != "n":
@@ -54,12 +53,9 @@ def inspect_part(a_part):
             a_part.replace()
         else:
             print(f"this part seems to be fine")
-    attach_part(a_part)
+    attach_part(a_part, bike)
 
-
-# The Motorcycle class itself should have attributes for attached and non-attached parts!!! Pending...
-            
-def attach_part(a_part):
+def attach_part(a_part, bike):
     while True:
         attach = input(f"do want to re-attach the part? (y/n): ")
         if attach != "y" and attach != "n":
@@ -69,40 +65,30 @@ def attach_part(a_part):
             break
     if attach == "y":
         a_part.set_attached(True)
-        list_of_removed_parts.remove(a_part)
-        list_of_parts.append(a_part)
+        bike.add_part(a_part)
+
+def break_part(bike):
+    part = bike.get_parts()[random.randint(0, len(bike.get_parts())-1)]
+    part.set_faulty(True)
+    bike.set_fault(part.get_issue())
 
 def main():
 
     # setting up
     my_bike = motorcycle.Motorcycle()
 
-    b_caliber_front = part.Part("break caliber(front)")
-    b_pads_front = part.Part("break pads(front)")
-
-    b_pads_front.set_faulty(True)
-    b_pads_front.add_part_to_remove(b_caliber_front)
-
-    my_bike.set_fault("the front break is sloppy")
-
-    part_list = []
-    part_list.append(b_caliber_front)
-    part_list.append(b_pads_front)
-
-    removed_part_list = []
-
-    my_bike.set_parts(part_list)
+    break_part(my_bike)
 
     my_bike.check_parts()
 
     # game loop
     print(my_bike)
     while my_bike.get_working() == False:
-        part_to_check = select_part_to_remove(part_list)
-        if remove_part(part_to_check, part_list, removed_part_list) == False:
+        part_to_check = select_part_to_remove(my_bike.get_parts())
+        if remove_part(part_to_check, my_bike) == False:
             continue
-        inspect_part(part_to_check)
-        
+        inspect_part(part_to_check, my_bike)
+
         # at this part putting the bike back together needs to be implemented
         # also replacing the part is automated right now and it probably shouldn't be
 
