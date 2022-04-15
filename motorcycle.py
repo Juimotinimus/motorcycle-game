@@ -2,13 +2,14 @@
 # Author: Henri Kuoppala, Juuso Äijälä
 # Description: motorcycle class
 
-from generate_parts import generate_parts
+from generate_parts import generate_parts, generate_list_of_parts
 
 class Motorcycle:
     def __init__(self):
         self.__is_working = True
         self.__fault_description = None
-        self.__parts = generate_parts()
+        self.__categories = generate_parts()
+        self.__parts = generate_list_of_parts(self.__categories)
         self.__removed_parts = []
 
     def __sort_parts(self, part):
@@ -23,6 +24,9 @@ class Motorcycle:
     def set_parts(self, list_of_parts):
         self.__parts = list_of_parts
 
+    def set_categories(self, dict_of_parts):
+        self.__categories = dict_of_parts
+
     def set_removed_parts(self, removed_parts):
         self.__removed_parts = removed_parts
 
@@ -34,6 +38,9 @@ class Motorcycle:
 
     def get_parts(self):
         return self.__parts
+
+    def get_categories(self):
+        return self.__categories
 
     def get_removed_parts(self):
         return self.__removed_parts
