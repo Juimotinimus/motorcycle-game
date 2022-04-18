@@ -6,25 +6,57 @@ import random
 import motorcycle
 from part import Part
 
-def select_part_to_remove(list_of_parts):
-    parts = list_of_parts
+def select_part(dict_of_parts):
+    print("\n===========================================")
     number = 1
-    for a_part in parts:
+    cl = []
+    for category in dict_of_parts:
+        print(f"{number}. {category}")
+        number += 1
+        cl.append(category)
+    while True:
+        try:
+            user_input = int(input(f"====================\nselect a category: "))
+            if user_input < 1 or user_input > number -1:
+                print("invalid input")
+                continue
+            else:
+                number = 1
+                break
+        except ValueError:
+            print("invalid input")
+            continue
+    category = cl[user_input -1]
+    print("====================\n")
+    for a_part in dict_of_parts[category]:
         print(f"{number}. {a_part}")
         number += 1
     while True:
         try:
-            a_part = int(input(f"select what part to remove: "))
-            if a_part < 1 or a_part > len(parts):
+            user_input = int(input(f"================\nselect a part: "))
+            if user_input < 1 or user_input > number -1:
                 print("invalid input")
                 continue
             else:
+                number = 1
                 break
         except ValueError:
             print("invalid input")
-    return parts[a_part -1]
+            continue
+    print("================\n")
+    selected_part = dict_of_parts[category][user_input -1]
+    return selected_part
 
 def remove_part(a_part, bike):
+    while True:
+        remove = input(f"do want to remove the part? (y/n): ")
+        if remove != "y" and inspect != "n":
+            print(f"invalid input")
+            continue
+        else:
+            break
+    if remove == "n":
+        return False
     first_remove = a_part.get_parts_to_remove()
     if len(first_remove) > 0:
         for i in first_remove:
@@ -72,6 +104,32 @@ def break_part(bike):
     part.set_faulty(True)
     bike.set_fault(part.get_issue())
 
+def check_bike(bike):
+    while True:
+        check = input(f"do want to check if the bike works? (y/n): ")
+        if check != "y" and check != "n":
+            print(f"invalid input")
+            continue
+        else:
+            break
+    if check == "n":
+        return False
+    else:
+        if len(bike.get_removed_parts()) > 0:
+            print(f"the bike can't be tested... the following parts need to be installed first:")
+            for part in bike.get_removed_parts():
+                print(part)
+            return False
+        else:
+            bike.check_parts()
+            if bike.get_working() == True:
+                print(bike)
+                return True
+            else:
+                print(bike)
+                return False
+        
+
 def main():
 
     # setting up
@@ -82,23 +140,16 @@ def main():
     my_bike.check_parts()
 
     # game loop
+    print("===========================================\n||            r==                        ||\n||        _  //                          ||\n||       |_)//(''''':                    ||\n||         //  \_____:_____.-----.P      ||\n||        //   | ===  |   /        \     ||\n||    .:'//.   \ \=|   \ /  .:'':.       ||\n||   :' // ':   \ \ ''..'--:'-.. ':      ||\n||   '. '' .'    \:.....:--'.-'' .'      ||\n||    ':..:'                ':..:'       ||\n===========================================\n")
     print(my_bike)
     while my_bike.get_working() == False:
-        part_to_check = select_part_to_remove(my_bike.get_parts())
-        if remove_part(part_to_check, my_bike) == False:
-            continue
-        inspect_part(part_to_check, my_bike)
-
-        # at this part putting the bike back together needs to be implemented
-        # also replacing the part is automated right now and it probably shouldn't be
-
-
-        my_bike.check_parts()
-        if my_bike.get_working() == True:
-            print(my_bike)
-            break
+        part_to_check = select_part(my_bike.get_categories())
+        if part_to_check.get_attached() == True:
+            if remove_part(part_to_check, my_bike) == False:
+                continue
+            inspect_part(part_to_check, my_bike)
         else:
-            continue
-
+            inspect_part(part_to_check, my_bike)
+        check_bike(my_bike)
 
 main()
