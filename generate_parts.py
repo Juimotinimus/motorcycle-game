@@ -22,18 +22,18 @@ def generate_parts():
             Part(8, "exhaust pipe", "bike makes a loud popping sound"),
             Part(9, "battery", "no ignition"),
             Part(10, "carburetor", "bike stalls after starting"),
-            Part(10, "air filter", "bike stalls after starting")
+            Part(11, "air filter", "bike stalls after starting")
             ],
         "drivetrain" :[
-            Part(11, "drive chain", "bike feels jerky"),
-            Part(12, "front sprocket", "loud noise and loss of power under acceleration"),
-            Part(13, "rear sprocket", "loud noise and loss of power under acceleration")
+            Part(12, "drive chain", "bike feels jerky"),
+            Part(13, "front sprocket", "loud noise and loss of power under acceleration"),
+            Part(14, "rear sprocket", "loud noise and loss of power under acceleration")
         ],
         "instruments" :[
-            Part(14, "throttle handle", "bike wont rev up"),
-            Part(15, "clutch lever", "bike won't move forwards"),
-            Part(16, "brake lever", "bike wont stop"),
-            Part(17, "brake pedal", "bike wont stop"),
+            Part(15, "throttle handle", "bike wont rev up"),
+            Part(16, "clutch lever", "bike won't move forwards"),
+            Part(17, "brake lever", "bike wont stop"),
+            Part(18, "brake pedal", "rear locks up"),
             Part(19, "gear shifter", "bike wont go to gear")
         ]
     }
